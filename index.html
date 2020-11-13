@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>贪吃蛇小游戏</title>
+    <style>
+      #map {
+        position: relative;
+        width: 400px;
+        height: 400px;
+        background: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="display: flex; flex-direction: row">
+      <div id="map"></div>
+      <div style="width: 300px; padding-left: 50px">
+        <div style="padding: 20px">修改控制键</div>
+        <div style="padding-bottom: 20px">
+          <input type="text" id="input" maxlength="1" />
+        </div>
+        <div>
+          <button onclick="handleChangeDir('left')">左方向</button>
+          <button onclick="handleChangeDir('top')">上方向</button>
+          <button onclick="handleChangeDir('bottom')">下方向</button>
+          <button onclick="handleChangeDir('right')">右方向</button>
+        </div>
+        <div>
+          <h3>当前控制</h3>
+          <p>Left：<span id="left"></span></p>
+          <p>Top：<span id="top"></span></p>
+          <p>Right：<span id="right"></span></p>
+          <p>Bottom：<span id="bottom"></span></p>
+        </div>
+      </div>
+    </div>
+
+    <script src="./src/map.js"></script>
+    <script src="./src/food.js"></script>
+    <script src="./src/snake.js"></script>
+    <script src="./src/game.js"></script>
+    <script>
+      let map = document.querySelector("#map");
+
+      let game = new Game(map, 10);
+      let title = {
+        left: "ArrowLeft",
+        top: "ArrowUp",
+        right: "ArrowRight",
+        bottom: "ArrowDown",
+      };
+
+      let inputValue = "";
+      let keyDownValue;
+
+      document.onclick = function () {
+        game.start();
+      };
+      const input = document.getElementById("input");
+      input.addEventListener("keydown", function ({ keyCode, key }) {
+        input.value = key;
+        inputValue = key;
+        keyDownValue = keyCode;
+      });
+
+      function changeControlTitle(key) {
+        const span = document.getElementById(key);
+        span.innerHTML = title[key];
+        game.changeControl(key, keyDownValue);
+      }
+
+      function handleChangeDir(key) {
+        if (!keyDownValue) return alert("请先输入要改变的方向再点击按钮！");
+        this.title[key] = this.inputValue;
+        this.changeControlTitle(key);
+      }
+    </script>
+  </body>
+</html>

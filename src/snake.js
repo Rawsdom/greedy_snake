@@ -61,7 +61,6 @@ class Snake {
 
   changeDirection(dir) {
     // 因为蛇本身是向右移动的话，那再往右移动没意义、也不可以往左移动，可以直接不处理
-    console.log(dir);
     if (this.isChangeDir(dir)) {
       this.direction = dir;
     }
@@ -71,4 +70,5 @@ class Snake {
   eatFood() {
     this.data.push(this.lastData);
   }
+
 }

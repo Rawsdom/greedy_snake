@@ -15,9 +15,12 @@
   </head>
   <body>
     <div style="display: flex; flex-direction: row">
-      <div id="map"></div>
+      <div id="map" style="margin-top: 50px"></div>
       <div style="width: 300px; padding-left: 50px">
-        <div style="padding: 20px">修改控制键</div>
+        <div>
+          <h1>得分 <span id="grade">0</span></h1>
+        </div>
+        <div style="padding: 20px 0px">修改控制键</div>
         <div style="padding-bottom: 20px">
           <input type="text" id="input" maxlength="1" />
         </div>
@@ -55,9 +58,26 @@
       let inputValue = "";
       let keyDownValue;
 
-      document.onclick = function () {
-        game.start();
-      };
+      let gameMap = document.querySelector("#map");
+      gameMap.addEventListener(
+        "click",
+        function () {
+          game.start();
+        },
+        true
+      );
+      document.addEventListener(
+        "click",
+        function () {
+          game.stop();
+        },
+        true
+      );
+
+      Object.keys(title).forEach((key) => {
+        document.getElementById(key).innerHTML = title[key];
+      });
+
       const input = document.getElementById("input");
       input.addEventListener("keydown", function ({ keyCode, key }) {
         input.value = key;
@@ -68,14 +88,25 @@
       function changeControlTitle(key) {
         const span = document.getElementById(key);
         span.innerHTML = title[key];
+        document.getElementById(key).innerHTML = title[key];
         game.changeControl(key, keyDownValue);
       }
 
       function handleChangeDir(key) {
         if (!keyDownValue) return alert("请先输入要改变的方向再点击按钮！");
-        this.title[key] = this.inputValue;
-        this.changeControlTitle(key);
+
+        title[key] = inputValue;
+
+        changeControlTitle(key);
       }
+      game.toOver = function (success) {
+        if (success) {
+          alert("挑战成功");
+        } else {
+          alert("跳转失败");
+          game = new Game(map, 10);
+        }
+      };
     </script>
   </body>
 </html>
